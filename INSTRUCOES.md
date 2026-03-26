@@ -50,4 +50,3 @@ npm test
    - Deleção física permitida.
 
 ---
-Projeto desenvolvido seguindo o protocolo **Antigravity Kit**.

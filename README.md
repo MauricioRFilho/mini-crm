@@ -110,3 +110,27 @@ npm run dev
 ```
 
 ---
+
+## 🧠 Decisões Técnicas (ADRs)
+
+Este projeto foi construído seguindo princípios de engenharia pragmática e focado em resultados de alta performance e manutenibilidade. Abaixo as principais decisões:
+
+### 1. Arquitetura Monorepo
+- **Por que:** Centraliza a lógica de negócio e interface em um único local, facilitando a orquestração via Docker e o deploy unificado. Permite compartilhamento de tipos (se necessário) e garante que backend e frontend evoluam em sincronia.
+
+### 2. Frontend: Vite + React + Vanilla CSS
+- **Por que Vite:** Oferece um ambiente de desenvolvimento instantâneo e build otimizado com Rollup.
+- **Por que Vanilla CSS:** Escolhido propositalmente para atingir **Lighthouse 100**. Sem o overhead de bibliotecas de componentes pesadas ou frameworks de utilitários que geram CSS não utilizado, mantemos o bundle minúsculo e o controle total sobre o design system (tokens).
+- **Acessibilidade:** Implementada nativamente com semântica HTML pura, garantindo compatibilidade com leitores de tela sem dependências extras.
+
+### 3. Backend: Express + Prisma + State Machine
+- **Por que Prisma:** Type-safety de ponta a ponta e migrations simplificadas.
+- **Máquina de Estados:** O fluxo de atendimentos (`AGUARDANDO` ➔ `EM_ATENDIMENTO` ➔ `FINALIZADO`) é controlado rigidamente no backend. Isso impede inconsistências de dados causadas por ações inesperadas na interface ou tentativas de manipulação via API.
+
+### 4. Deploy: Docker & Vercel
+- **Docker:** Garante que o desenvolvedor rode exatamente o que está em produção.
+- **Vercel:** Escolhido para hospedagem pela facilidade de deploy contínuo (CI/CD) e suporte nativo a monorepos, garantindo custo zero para testes e validação rápida.
+
+---
+
+

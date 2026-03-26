@@ -28,9 +28,9 @@ export const AppointmentsPage = () => {
         }),
         getPatients(1, 20) // Reduzido de 100 para 20 para melhor LCP
       ]);
-      setAppointments(apptsResponse.appointments);
-      setTotalPages(apptsResponse.totalPages);
-      setPatients(ptsResponse.patients);
+      setAppointments(apptsResponse?.appointments || []);
+      setTotalPages(apptsResponse?.totalPages || 1);
+      setPatients(ptsResponse?.patients || []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -212,7 +212,7 @@ export const AppointmentsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {appointments.length > 0 ? appointments.map(a => (
+              {appointments?.length > 0 ? (appointments || []).map(a => (
                 <tr key={a.id}>
                   <td style={{ fontWeight: 500 }}>{a.patient?.name}</td>
                   <td style={{ color: 'var(--text-secondary)' }}>{a.description}</td>

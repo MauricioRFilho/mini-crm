@@ -33,8 +33,8 @@ export const PatientsPage = () => {
     setLoading(true);
     try {
       const { patients: data, totalPages: total } = await getPatients(currentPage, 10);
-      setPatients(data);
-      setTotalPages(total);
+      setPatients(data || []);
+      setTotalPages(total || 1);
     } catch (e) {
       console.error(e);
     } finally {
@@ -168,14 +168,14 @@ export const PatientsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {patients.length === 0 ? (
+              {patients?.length === 0 ? (
                 <tr>
                   <td colSpan={4} style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-secondary)' }}>
                     Nenhum paciente encontrado.
                   </td>
                 </tr>
               ) : (
-                patients.map(p => (
+                 (patients || []).map(p => (
                   <tr key={p.id}>
                     <td style={{ fontWeight: 500 }}>{p.name}</td>
                     <td style={{ color: 'var(--text-secondary)' }}>{formatPhone(p.phone)}</td>

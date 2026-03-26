@@ -34,13 +34,39 @@ async function main() {
   const appointments = [];
   const statuses = ['AGUARDANDO', 'EM_ATENDIMENTO', 'FINALIZADO'];
 
+  const appointmentDescriptions = [
+    'Consulta de rotina',
+    'Exame de sangue',
+    'Retorno médico',
+    'Avaliação cardiológica',
+    'Primeira consulta',
+    'Acompanhamento pré-natal',
+    'Check-up anual',
+    'Sessão de fisioterapia',
+    'Consulta dermatológica',
+    'Atendimento de urgência',
+  ];
+
+  const appointmentNotes = [
+    'Paciente apresenta melhora no quadro clínico.',
+    'Necessário realizar exames complementares.',
+    'Medicamento prescrito conforme receita.',
+    'Retornar em 15 dias para nova avaliação.',
+    'Sem alterações significativas desde a última visita.',
+    'Paciente queixa-se de dores leves na região lombar.',
+    'Pressão arterial estabilizada.',
+    'Seguir com a dieta recomendada pelo nutricionista.',
+    'Autorizado início de atividades físicas leves.',
+    'Encaminhado para especialista.',
+  ];
+
   // Criar pelo menos 100 atendimentos distribuídos aleatoriamente
   for (let i = 0; i < 120; i++) {
     const randomPatient = createdPatients[Math.floor(Math.random() * createdPatients.length)];
     appointments.push({
-      description: faker.lorem.sentence(),
+      description: appointmentDescriptions[Math.floor(Math.random() * appointmentDescriptions.length)],
       status: statuses[Math.floor(Math.random() * statuses.length)] as any,
-      notes: faker.lorem.paragraph(),
+      notes: appointmentNotes[Math.floor(Math.random() * appointmentNotes.length)],
       patientId: randomPatient.id,
     });
   }
