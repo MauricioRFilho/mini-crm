@@ -10,8 +10,10 @@ class PatientController {
   }
 
   async list(req: Request, res: Response) {
-    const patients = await patientService.list();
-    return res.json(patients);
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const result = await patientService.list(page, limit);
+    return res.json(result);
   }
 
   async getOne(req: Request, res: Response) {

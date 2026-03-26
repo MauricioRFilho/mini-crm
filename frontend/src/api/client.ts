@@ -5,7 +5,8 @@ const api = axios.create({
 });
 
 // Patients
-export const getPatients = () => api.get('/patients').then(r => r.data);
+export const getPatients = (page: number = 1, limit: number = 10) => 
+  api.get('/patients', { params: { page, limit } }).then(r => r.data);
 export const createPatient = (data: any) => api.post('/patients', data).then(r => r.data);
 export const deletePatient = (id: string) => api.delete(`/patients/${id}`);
 

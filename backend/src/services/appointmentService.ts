@@ -22,12 +22,27 @@ class AppointmentService {
     });
   }
 
-  async list(filters?: { status?: AppointmentStatus; patientId?: string }) {
-    return prisma.appointment.findMany({
-      where: filters,
-      include: { patient: true },
-      orderBy: { createdAt: 'desc' },
-    });
+  async list(filters?: { status?: AppointmentStatus; patientId?: string }, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+    
+    const [appointments, total] = await Promise.all([
+      prisma.appointment.findMany({
+        where: filters,
+        include: { patient: true },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: limit,
+      }),
+      prisma.appointment.count({ where: filters })
+    ]);
+
+    return {
+      appointments,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    };
   }
 
   async findById(id: string) {

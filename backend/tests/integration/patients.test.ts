@@ -21,11 +21,13 @@ describe('Patients Integration Tests', () => {
     patientId = response.body.id;
   });
 
-  it('should list patients', async () => {
+  it('should list patients with pagination', async () => {
     const response = await request(app).get('/api/patients');
     expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body.length).toBeGreaterThan(0);
+    expect(response.body).toHaveProperty('patients');
+    expect(response.body).toHaveProperty('total');
+    expect(Array.isArray(response.body.patients)).toBe(true);
+    expect(response.body.patients.length).toBeGreaterThan(0);
   });
 
   it('should get patient details', async () => {

@@ -12,11 +12,19 @@ class PatientService {
     return prisma.patient.create({ data });
   }
 
-  async list() {
-    return prisma.patient.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: { _count: { select: { appointments: true } } },
-    });
+  async list(page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+    const [patients, total] = await Promise.all([
+      prisma.patient.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: { _count: { select: { appointments: true } } },
+      }),
+      prisma.patient.count(),
+    ]);
+
+    return { patients, total, page, limit, totalPages: Math.ceil(total / limit) };
   }
 
   async findById(id: string) {

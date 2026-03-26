@@ -11,12 +11,16 @@ class AppointmentController {
   }
 
   async list(req: Request, res: Response) {
-    const { status, patientId } = req.query;
-    const appointments = await appointmentService.list({
-      status: status as AppointmentStatus,
-      patientId: patientId as string,
-    });
-    return res.json(appointments);
+    const { status, patientId, page, limit } = req.query;
+    const result = await appointmentService.list(
+      {
+        status: status as AppointmentStatus,
+        patientId: patientId as string,
+      },
+      Number(page || 1),
+      Number(limit || 10)
+    );
+    return res.json(result);
   }
 
   async getOne(req: Request, res: Response) {
